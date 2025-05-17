@@ -17,7 +17,7 @@ The system is data-driven, configuration-controlled, and built to be extensible 
 
 ---
 
-How it works (layer by layer)
+## How it works (layer by layer)
 1. Data Layer – What drives the system (input)
 This layer just listens to incoming data from Galio (positions, balances, etc.) via WebSocket. When data updates, everything else reacts.
 Right now, we're using one WebSocket source, but it can be extended to include others—Binance, OKX, Bybit, or even REST-based feeds.
@@ -42,7 +42,7 @@ Functions call something like send_alert(...), and the alert system decides what
 That could be sending to Slack, writing to a log file, calling a webhook, etc. More can be added later.
 This keeps alert logic separate from decision logic.
 
-Design goals are
+## Design goals are
  - Let data drive everything (no polling, no scheduling)
  - Let config define behavior (not hardcoded)but i will do hardcoded function first
  - Keep functions small, focused, and independent
@@ -50,7 +50,7 @@ Design goals are
  - Be able to change one layer without touching the others
  - Don't let one broken function bring down the whole system(try catch...)
 
-Adding something new by:
+## Adding something new by:
  - Write a new function → plug it in( Logic Layer )
  - Update account config → change behavior(Dispatcher Layer)
  - Add an alert channel → no need to change logic( Alert Layer)
