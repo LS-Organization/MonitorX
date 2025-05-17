@@ -1,6 +1,6 @@
 # Real-Time Multi-Account Monitoring System
 
-This is a modular, real-time monitoring framework designed for tracking and alerting on multiple trading accounts across exchanges. It processes live WebSocket data and dispatches account-specific logic functions for things like delta checks, balance monitoring, risk exposure, and more.
+This is a  real-time monitoring framework designed for tracking Galio and alerting on multiple trading accounts across exchanges. It processes live WebSocket data and dispatches account-specific logic functions for things like delta checks, balance monitoring, risk exposure, and more.
 
 The system is data-driven, configuration-controlled, and built to be extensible and resilient.
 
@@ -19,13 +19,13 @@ The system is data-driven, configuration-controlled, and built to be extensible 
 
 How it works (layer by layer)
 1. Data Layer – What drives the system (input)
- This layer just listens to incoming data from Galio (positions, balances, etc.) via WebSocket. When data updates, everything else reacts.
+This layer just listens to incoming data from Galio (positions, balances, etc.) via WebSocket. When data updates, everything else reacts.
 Right now, we're using one WebSocket source, but it can be extended to include others—Binance, OKX, Bybit, or even REST-based feeds.
 a trigger layer.
 
 
 2. Dispatcher Layer – Who runs what (routing)
- This part decides what logic should run for which account. It reads from a config file (account_features.json) where we map each account to its assigned checks.
+This part decides what logic should run for which account. It reads from a config file (account_features.json) where we map each account to its assigned checks.
 For example:
 Some accounts might check for the USDT balance level and delta mismatches
 Others might only check risk exposure
@@ -38,7 +38,7 @@ They take the account name and balance data as input, and they can optionally ra
 Each function is fully independent. They don't share a state and don't depend on each other. You can add new ones without the risk of breaking existing ones.
 
 4. Alert Layer (over kill) – Where alerts are sent (output)
- Functions call something like send_alert(...), and the alert system decides what to do with it.
+Functions call something like send_alert(...), and the alert system decides what to do with it.
 That could be sending to Slack, writing to a log file, calling a webhook, etc. More can be added later.
 This keeps alert logic separate from decision logic.
 
@@ -57,26 +57,25 @@ Adding something new by:
  - It's meant to be flexible enough that these changes can be done quickly and safely.
 below is the workflow chart
 
-![image_720](https://github.com/user-attachments/assets/bab881fd-20d1-4e3e-8906-e2d7b0dc5e78)
+![image](https://github.com/user-attachments/assets/f4dbac23-e1bf-4641-8104-8ab924e3e536)
 
 
 
 ## Getting Started
 
-### 1. Clone the repo
-
 ```bash
+#1. Clone the repo
 git clone https://github.com/LS-Organization/MonitorX.git
 cd MonitorX
 
-2.Create and activate a virtual environment
+#2.Create and activate a virtual environment
 python -m venv venv
 source venv/bin/activate 
 
-3.Install dependencies
+#3.Install dependencies
 pip install -r requirements.txt
 
-4. Create .env file
+#4. Create .env file
 example 
 USERNAME=your_username
 PASSWORD=your_password
