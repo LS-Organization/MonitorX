@@ -30,9 +30,9 @@
     "expand_by": "account",
     "accounts": ["OKXTrading-AAZ"],
     "params_template": {
-      "threshold": 0,
+      "threshold": 100,
       "_comment": "USD value of the delta check",
-      "delay": 5,
+      "delay": 60,
       "_comment": "Delay in seconds before the check is performed"
     }
   }
