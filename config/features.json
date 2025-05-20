@@ -35,5 +35,50 @@
       "delay": 60,
       "_comment": "Delay in seconds before the check is performed"
     }
+  },
+  "aaz_binance_low_balance_check": {
+    "module": "features.aaz_binance_low_balance_check",
+    "function": "aaz_binance_low_balance_check",
+    "params": {
+      "accounts": [
+        "BINANCEUM-AAZ01",
+        "BINANCEUM-AAZ02", 
+        "BINANCEUM-AAZ03", 
+        "BINANCEUM-AAZ04",
+        "BINANCEUM-AAZ05",
+        "BINANCEUM-AAZ06",
+        "BINANCEUM-AAZ08",
+        "BINANCEUM-AAZ09",
+        "BINANCEUM-AAZ10",
+        "BINANCEUM-AAZ11"
+      ],
+      "thresholds": {
+        "USDT": 10000,
+        "USDC": 10000,
+        "BNB": 5
+      },
+      "cooldown": 60
+    }
+  },
+  "generate_balance_report:all": {
+    "module": "features.generate_balance_report",
+    "function": "generate_balance_report",
+    "params": {
+      "accounts": [
+        "BINANCEUM-AAZ01",
+        "BINANCEUM-AAZ02", 
+        "BINANCEUM-AAZ03", 
+        "BINANCEUM-AAZ04",
+        "BINANCEUM-AAZ05",
+        "BINANCEUM-AAZ06",
+        "BINANCEUM-AAZ08",
+        "BINANCEUM-AAZ09",
+        "BINANCEUM-AAZ10",
+        "BINANCEUM-AAZ11",  
+        "BINANCEUM-AAZ12",
+        "BINANCEUM-AAZ13"
+      ]
+    }
   }
 }
+
