@@ -1,15 +1,14 @@
 import os
-from dotenv import load_dotenv
 import requests
 
-load_dotenv()
-SLACK_WEBHOOK_URL = os.getenv("SLACK_WEBHOOK_URL")
-
-def send_alert(message: str):
+def send_alert(message):
+    webhook = os.getenv("SLACK_WEBHOOK_URL")  # 每次调用时动态获取
+    if not webhook:
+        print("⚠️ No SLACK_WEBHOOK_URL configured")
+        return
     try:
-        r = requests.post(SLACK_WEBHOOK_URL, json={"text": message})
-        if r.status_code != 200:
-            print(f"Slack error: {r.status_code} {r.text}")
+        response = requests.post(webhook, json={"text": message})
+        if response.status_code != 200:
+            print("⚠️ Slack error:", response.status_code, response.text)
     except Exception as e:
-        print(f"Slack exception: {e}")
-
+        print("⚠️ Alert error:", e)

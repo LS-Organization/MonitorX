@@ -1,0 +1,27 @@
+{
+  "binance_delta_check:all": {
+    "module": "features.binance_delta_check",
+    "function": "binance_delta_check",
+    "expand_by": "account",
+    "accounts": [
+      "BINANCEUM-AAZ01",
+      "BINANCEUM-AAZ02",
+      "BINANCEUM-AAZ03",
+      "BINANCEUM-AAZ04",
+      "BINANCEUM-AAZ05",
+      "BINANCEUM-AAZ06",
+      "BINANCEUM-AAZ08",
+      "BINANCEUM-AAZ09",
+      "BINANCEUM-AAZ10",
+      "BINANCEUM-AAZ11",
+      "BINANCEUM-AAZ12",
+      "BINANCEUM-AAZ13"
+    ],
+    "params_template": {
+      "threshold": 100,
+      "_comment": "USD value of the delta check",
+      "delay": 60,
+      "_comment": "Delay in seconds before the check is performed"
+    }
+  }
+}
