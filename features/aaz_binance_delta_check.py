@@ -4,7 +4,7 @@ from utils.alert import send_alert
 
 delta_exceed_start = {}
 
-async def binance_delta_check(context, params):
+async def aaz_binance_delta_check(context, params):
     account = params["account"]
     balance = context["accounts"].get(account)
     if not balance:

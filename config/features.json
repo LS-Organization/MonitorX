@@ -1,7 +1,7 @@
 {
-  "binance_delta_check:all": {
-    "module": "features.binance_delta_check",
-    "function": "binance_delta_check",
+  "aaz_binance_delta_check:all": {
+    "module": "features.aaz_binance_delta_check",
+    "function": "aaz_binance_delta_check",
     "expand_by": "account",
     "accounts": [
       "BINANCEUM-AAZ01",
@@ -21,6 +21,18 @@
       "threshold": 100,
       "_comment": "USD value of the delta check",
       "delay": 60,
+      "_comment": "Delay in seconds before the check is performed"
+    }
+  },
+  "aaz_okx_delta_check:all": {
+    "module": "features.aaz_okx_delta_check",
+    "function": "aaz_okx_delta_check",
+    "expand_by": "account",
+    "accounts": ["OKXTrading-AAZ"],
+    "params_template": {
+      "threshold": 0,
+      "_comment": "USD value of the delta check",
+      "delay": 5,
       "_comment": "Delay in seconds before the check is performed"
     }
   }
