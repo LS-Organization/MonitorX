@@ -24,9 +24,9 @@
       "_comment": "Delay in seconds before the check is performed"
     }
   },
-  "aaz_okx_delta_check:all": {
-    "module": "features.aaz_okx_delta_check",
-    "function": "aaz_okx_delta_check",
+  "aaz_okx_eth_delta_check:all": {
+    "module": "features.aaz_okx_eth_delta_check",
+    "function": "aaz_okx_eth_delta_check",
     "expand_by": "account",
     "accounts": ["OKXTrading-AAZ"],
     "params_template": {
@@ -55,7 +55,7 @@
       "thresholds": {
         "USDT": 10000,
         "USDC": 10000,
-        "BNB": 5
+        "BNB": 3
       },
       "cooldown": 60
     }

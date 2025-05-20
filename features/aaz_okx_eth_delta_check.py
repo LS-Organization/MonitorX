@@ -1,48 +1,50 @@
 import time
-from collections import defaultdict
-from datetime import timedelta
 from utils.alert import send_alert
 
 imbalance_tracker = {}  # key: (account, sym1, sym2) → timestamp
 
 
 def get_contract_size(symbol):
+    if "ETH" not in symbol:
+        return None  
     if symbol.endswith("USDT") or "USDT-SWAP" in symbol or symbol.endswith("USDTForce-Liquid-Price"):
         return 1
     elif symbol.endswith("USDC") or "USDC-SWAP" in symbol or symbol.endswith("USDCForce-Liquid-Price"):
         return 0.01
-    return 1
+    return None
 
 
-def find_usdt_usdc_pairs(balance):
+def find_eth_usdt_usdc_pairs(balance):
     pairs = {}
 
     for key in balance:
-        if "Avg-Price" in key or "Force-Liquid-Price" in key:
+        if "Avg-Price" in key or "Force-Liquid-Price" in key or "ETH" not in key:
             continue
 
         if "-USDC-SWAP" in key or "-USDT-SWAP" in key:
             base = key.replace("-USDC-SWAP", "").replace("-USDT-SWAP", "")
-            pairs.setdefault(base, [None, None])
-            if "USDC" in key:
-                pairs[base][0] = key
-            else:
-                pairs[base][1] = key
+            if "ETH" in base:
+                pairs.setdefault(base, [None, None])
+                if "USDC" in key:
+                    pairs[base][0] = key
+                else:
+                    pairs[base][1] = key
 
         elif key.startswith("OKX-P-") and ("USDC" in key or "USDT" in key):
             base = key.replace("OKX-P-", "").replace("USDC", "").replace("USDT", "")
-            usdc_key = f"OKX-P-{base}USDC"
-            usdt_key = f"OKX-P-{base}USDT"
-            pairs.setdefault(f"OKX-P-{base}", [None, None])
-            if "USDC" in key:
-                pairs[f"OKX-P-{base}"][0] = usdc_key
-            else:
-                pairs[f"OKX-P-{base}"][1] = usdt_key
+            if "ETH" in base:
+                usdc_key = f"OKX-P-{base}USDC"
+                usdt_key = f"OKX-P-{base}USDT"
+                pairs.setdefault(f"OKX-P-{base}", [None, None])
+                if "USDC" in key:
+                    pairs[f"OKX-P-{base}"][0] = usdc_key
+                else:
+                    pairs[f"OKX-P-{base}"][1] = usdt_key
 
     return pairs
 
 
-async def aaz_okx_delta_check(context, params):
+async def aaz_okx_eth_delta_check(context, params):
     account = params["account"]
     balance = context["accounts"].get(account)
     if not balance:
@@ -52,16 +54,19 @@ async def aaz_okx_delta_check(context, params):
     threshold = params.get("threshold", 0)
     delay_seconds = params.get("delay", 5)
 
-    pairs = find_usdt_usdc_pairs(balance)
+    pairs = find_eth_usdt_usdc_pairs(balance)
 
     for base, (sym1, sym2) in pairs.items():
         if not sym1 or not sym2:
             continue
 
-        pos1 = balance.get(sym1, 0)
-        pos2 = balance.get(sym2, 0)
         size1 = get_contract_size(sym1)
         size2 = get_contract_size(sym2)
+        if size1 is None or size2 is None:
+            continue
+
+        pos1 = balance.get(sym1, 0)
+        pos2 = balance.get(sym2, 0)
 
         eth1 = pos1 * size1
         eth2 = pos2 * size2
@@ -78,11 +83,11 @@ async def aaz_okx_delta_check(context, params):
                 imbalance_tracker[key] = now
             elif now - imbalance_tracker[key] >= delay_seconds:
                 msg = f"""
-[{account}] {sym1} / {sym2} Δ=${usd_diff:.2f} > {threshold} for {delay_seconds}s
+[{account}] {sym1} / {sym2} ETH  Δ=${usd_diff:.2f} > {threshold} for {delay_seconds}s
 
 • {sym1:<20} {pos1:.4f} × size={size1:.2f} = {eth1:.4f} ETH  
 • {sym2:<20} {pos2:.4f} × size={size2:.2f} = {eth2:.4f} ETH  
-• usd_diff = {eth_diff:.4f} × ${avg_price:.2f} = Δ ${usd_diff:.2f}
+• ETH diff = {eth_diff:.4f} × ${avg_price:.2f} = Δ ${usd_diff:.2f}
 """
                 send_alert(msg)
         else:
