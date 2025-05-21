@@ -3,17 +3,29 @@ from utils.alert import send_alert
 
 # Official report times in UTC
 SCHEDULE_TIMES = ["00:00", "06:00", "12:00", "18:00"]
+#SCHEDULE_TIMES = ["13:19"]
+
+# Stores the last sent minute to avoid duplicate reports
+last_sent_minute = None
 
 def format_usd(value):
     return f"${value:,.2f}"
 
 async def generate_balance_report(context, params):
+    global last_sent_minute
+
     now_utc = datetime.utcfromtimestamp(context["now"])
     current_time_str = now_utc.strftime("%H:%M")
 
-    # Only run at exact schedule times
+
     if current_time_str not in SCHEDULE_TIMES:
+        last_sent_minute = None  
         return
+
+    if last_sent_minute == current_time_str:
+        return
+
+    last_sent_minute = current_time_str
 
     accounts = params.get("accounts", [])
     all_pos = context["accounts"]
@@ -51,7 +63,7 @@ async def generate_balance_report(context, params):
             f"• TOTAL: {format_usd(total)}\n"
         )
 
-    lines.append("---")
+    lines.append("-----------------------")
     lines.append("*Summary Totals*")
     lines.append(f"• USDT: {format_usd(total_usdt)}")
     lines.append(f"• USDC: {format_usd(total_usdc)}")
