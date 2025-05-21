@@ -88,6 +88,54 @@
         "BINANCEUM-AAZ13"
       ]
     }
+  },
+  "margin_full_snapshot:all": {
+    "module": "features.margin_full_snapshot",
+    "function": "margin_full_snapshot",
+    "params": {
+      "enabled": false,
+      "account":  [
+        "BINANCEUM-AAZ01",
+        "BINANCEUM-AAZ02", 
+        "BINANCEUM-AAZ03", 
+        "BINANCEUM-AAZ04",
+        "BINANCEUM-AAZ05",
+        "BINANCEUM-AAZ06",
+        "BINANCEUM-AAZ08",
+        "BINANCEUM-AAZ09",
+        "BINANCEUM-AAZ10",
+        "BINANCEUM-AAZ11",  
+        "BINANCEUM-AAZ12",
+        "BINANCEUM-AAZ13"
+      ]
+    }
+  },
+  "margin_risk_alert:multi": {
+    "module": "features.margin_risk_alert",
+    "function": "margin_risk_alert",
+    "params": {
+      "accounts": [
+        "BINANCEUM-AAZ01",
+        "BINANCEUM-AAZ02", 
+        "BINANCEUM-AAZ03", 
+        "BINANCEUM-AAZ04",
+        "BINANCEUM-AAZ05",
+        "BINANCEUM-AAZ06",
+        "BINANCEUM-AAZ08",
+        "BINANCEUM-AAZ09",
+        "BINANCEUM-AAZ10",
+        "BINANCEUM-AAZ11"
+      ],
+      "cooldown": 60,
+      "thresholds": {
+        "initial_margin": 0.8,
+        "maint_margin": 0.2,
+        "position_margin": 0.75,
+        "usdt_usdc_ratio_min": 0.5,
+        "usdt_usdc_ratio_max": 2.5
+      }
+    }
   }
+
 }
 
