@@ -30,8 +30,8 @@
     "expand_by": "account",
     "accounts": ["OKXTrading-AAZ"],
     "params_template": {
-      "threshold": 0,
-      "delay": 5,
+      "threshold": 100,
+      "delay": 60,
       "symbols": ["ETH", "BTC"],
       "contract_sizes": {
         "ETH": {
