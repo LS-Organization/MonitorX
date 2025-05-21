@@ -24,16 +24,25 @@
       "_comment": "Delay in seconds before the check is performed"
     }
   },
-  "aaz_okx_eth_delta_check:all": {
-    "module": "features.aaz_okx_eth_delta_check",
-    "function": "aaz_okx_eth_delta_check",
+  "aaz_okx_hedge_check:all": {
+    "module": "features.aaz_okx_hedge_check",
+    "function": "aaz_okx_hedge_check",
     "expand_by": "account",
     "accounts": ["OKXTrading-AAZ"],
     "params_template": {
-      "threshold": 100,
-      "_comment": "USD value of the delta check",
-      "delay": 60,
-      "_comment": "Delay in seconds before the check is performed"
+      "threshold": 0,
+      "delay": 5,
+      "symbols": ["ETH", "BTC"],
+      "contract_sizes": {
+        "ETH": {
+          "USDT": 0.1,
+          "USDC": 0.001
+        },
+        "BTC": {
+          "USDT": 0.01,
+          "USDC": 0.0001
+        }
+      },"_comment": "contract_sizes from OKX only apply to the OKX-P-"
     }
   },
   "aaz_binance_low_balance_check": {
