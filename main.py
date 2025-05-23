@@ -19,7 +19,7 @@ async def connect_and_listen():
 
                 if USERNAME and PASSWORD:
                     await ws.send(json.dumps({"username": USERNAME, "password": PASSWORD}))
-                    print("🔐 Auth sent")
+                    print("Auth sent")
 
                 while True:
                     msg = await ws.recv()  
