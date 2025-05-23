@@ -128,11 +128,11 @@
       ],
       "cooldown": 60,
       "thresholds": {
-        "initial_margin": 0.8,
+        "initial_margin": 0.7,
         "maint_margin": 0.2,
         "position_margin": 0.75,
-        "usdt_usdc_ratio_min": 0.5,
-        "usdt_usdc_ratio_max": 2.5
+        "usdt_usdc_ratio_min": 0.7,
+        "usdt_usdc_ratio_max": 2.0
       }
     }
   }

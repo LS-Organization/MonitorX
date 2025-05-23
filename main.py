@@ -19,18 +19,18 @@ async def connect_and_listen():
 
                 if USERNAME and PASSWORD:
                     await ws.send(json.dumps({"username": USERNAME, "password": PASSWORD}))
-                    print("Auth sent")
+                    print("🔐 Auth sent")
 
                 while True:
+                    msg = await ws.recv()  
                     try:
-                        msg = await ws.recv()
                         data = json.loads(msg)
                         pos_data = data.get("pos", {})
                         await dispatch_to_features(pos_data)
                     except json.JSONDecodeError as e:
                         print("JSON decode error:", e)
                     except Exception as e:
-                        print("Message handling error:", e)
+                        print("Feature dispatch error:", e)
 
         except websockets.exceptions.ConnectionClosed as e:
             print(f"🔌 Connection closed: code={e.code}, reason={e.reason}. Reconnecting in 5s...")
