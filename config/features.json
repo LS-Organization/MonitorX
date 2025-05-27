@@ -21,7 +21,8 @@
       "threshold": 100,
       "_comment": "USD value of the delta check",
       "delay": 60,
-      "_comment": "Delay in seconds before the check is performed"
+      "_comment": "Delay in seconds before the check is performed",
+      "cooldown": 300
     }
   },
   "aaz_okx_hedge_check:all": {
@@ -32,6 +33,7 @@
     "params_template": {
       "threshold": 100,
       "delay": 60,
+      "cooldown": 300,
       "symbols": ["ETH", "BTC"],
       "contract_sizes": {
         "ETH": {
@@ -66,7 +68,7 @@
         "USDC": 10000,
         "BNB": 3
       },
-      "cooldown": 60
+      "cooldown": 300
     }
   },
   "generate_balance_report:all": {
@@ -126,12 +128,12 @@
         "BINANCEUM-AAZ10",
         "BINANCEUM-AAZ11"
       ],
-      "cooldown": 60,
+      "cooldown": 300,
       "thresholds": {
         "initial_margin": 0.7,
         "maint_margin": 0.2,
         "position_margin": 0.75,
-        "usdt_usdc_ratio_min": 0.7,
+        "usdt_usdc_ratio_min": 0.6,
         "usdt_usdc_ratio_max": 2.0
       }
     }

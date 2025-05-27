@@ -33,7 +33,7 @@ async def connect_and_listen():
                         print("Feature dispatch error:", e)
 
         except websockets.exceptions.ConnectionClosed as e:
-            print(f"🔌 Connection closed: code={e.code}, reason={e.reason}. Reconnecting in 5s...")
+            print(f"Connection closed: code={e.code}, reason={e.reason}. Reconnecting in 5s...")
         except Exception as e:
             print(f"Unexpected connection error: {e}. Reconnecting in 5s...")
 

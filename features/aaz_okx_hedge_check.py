@@ -2,7 +2,7 @@ import time
 from utils.alert import send_alert
 
 imbalance_tracker = {}  # key: (account, sym1, sym2) → timestamp
-
+last_alert_time = {}         # key: (account, sym1, sym2) → last_sent_time
 
 def get_contract_size(symbol, contract_sizes):
     for base, sizes in contract_sizes.items():
@@ -58,6 +58,7 @@ async def aaz_okx_hedge_check(context, params):
     now = context["now"]
     threshold = params.get("threshold", 0)
     delay_seconds = params.get("delay", 5)
+    cooldown = params.get("cooldown", 300)  # default 5min
     symbols = params["symbols"]
     contract_sizes = params["contract_sizes"]
 
@@ -89,13 +90,17 @@ async def aaz_okx_hedge_check(context, params):
             if key not in imbalance_tracker:
                 imbalance_tracker[key] = now
             elif now - imbalance_tracker[key] >= delay_seconds:
-                msg = f"""
+                last_sent = last_alert_time.get(key, 0)
+                if now - last_sent >= cooldown:
+                    msg = f"""
 [{account}] {sym1} / {sym2} Δ=${usd_diff:.2f} > {threshold} for {delay_seconds}s
 
 • {sym1:<20} {pos1:.4f} × size={size1:.4f} = {val1:.4f}  
 • {sym2:<20} {pos2:.4f} × size={size2:.4f} = {val2:.4f}  
-•  Δ== {diff:.4f} × ${avg_price:.2f} = Δ ${usd_diff:.2f}
+• Δ = {diff:.4f} × ${avg_price:.2f} = Δ ${usd_diff:.2f}
 """
-                send_alert(msg)
+                    send_alert(msg)
+                    last_alert_time[key] = now
         else:
             imbalance_tracker.pop(key, None)
+            last_alert_time.pop(key, None)
